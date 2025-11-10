@@ -123,7 +123,7 @@ function App() {
               placeholder="Nom de la matière..."
               value={newSubjectName}
               onChange={(e) => setNewSubjectName(e.target.value)}
-              onKeyPress={(e) => e.key === "Enter" && addSubject()}
+              onKeyDown={(e) => e.key === "Enter" && addSubject()}
             />
             <button onClick={addSubject}>Ajouter</button>
           </div>
