@@ -357,71 +357,96 @@ function App() {
   const stats = getOverallStats();
 
   return (
-    <div className="app">
-      <header className="header">
-        <div className="header-content">
-          <div>
-            <h1>📅 Planificateur de révision KOPIO</h1>
-            <p>Organise tes révisions pour réussir tes examens</p>
-          </div>
-          <div className="header-actions">
-            <button
-              className={`view-toggle ${viewMode === "week" ? "active" : ""}`}
-              onClick={() => setViewMode("week")}
-            >
-              Semaine
-            </button>
-            <button
-              className={`view-toggle ${viewMode === "month" ? "active" : ""}`}
-              onClick={() => setViewMode("month")}
-            >
-              Mois
-            </button>
+    <div className="min-h-screen bg-background-secondary">
+      {/* Header */}
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div className="container-max py-6">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+                📅 Planificateur de révision KOPIO
+              </h1>
+              <p className="text-sm text-gray-600 mt-1">
+                Organise tes révisions pour réussir tes examens
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <button
+                className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all ${
+                  viewMode === "week"
+                    ? "bg-brand-600 text-white"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+                onClick={() => setViewMode("week")}
+              >
+                Semaine
+              </button>
+              <button
+                className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all ${
+                  viewMode === "month"
+                    ? "bg-brand-600 text-white"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+                onClick={() => setViewMode("month")}
+              >
+                Mois
+              </button>
+            </div>
           </div>
         </div>
       </header>
 
-      <main className="main">
+      <main className="container-max py-6 space-y-6">
         {/* Statistiques globales */}
-        <section className="stats-section">
-          <div className="stat-card primary">
-            <div className="stat-icon">📊</div>
-            <div className="stat-content">
-              <div className="stat-value">
-                {stats.completedSlots}/{stats.totalSlots}
-              </div>
-              <div className="stat-label">Séances complétées</div>
-              <div className="stat-progress">
-                <div className="progress-bar">
-                  <div
-                    className="progress-fill"
-                    style={{ width: `${stats.progress}%` }}
-                  ></div>
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-gradient-to-br from-brand-600 to-brand-700 text-white rounded-xl p-6 shadow-lg">
+            <div className="flex items-center gap-4">
+              <div className="text-4xl">📊</div>
+              <div className="flex-1">
+                <div className="text-3xl font-bold mb-1">
+                  {stats.completedSlots}/{stats.totalSlots}
                 </div>
-                <span>{Math.round(stats.progress)}%</span>
+                <div className="text-sm opacity-90 mb-3">Séances complétées</div>
+                <div className="flex items-center gap-2">
+                  <div className="flex-1 h-2 bg-white/30 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-white rounded-full transition-all"
+                      style={{ width: `${stats.progress}%` }}
+                    ></div>
+                  </div>
+                  <span className="text-sm font-semibold">{Math.round(stats.progress)}%</span>
+                </div>
               </div>
             </div>
           </div>
-          <div className="stat-card">
-            <div className="stat-icon">⏱️</div>
-            <div className="stat-content">
-              <div className="stat-value">{stats.completedHours}h</div>
-              <div className="stat-label">Heures révisées</div>
+          <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+            <div className="flex items-center gap-4">
+              <div className="text-4xl">⏱️</div>
+              <div>
+                <div className="text-3xl font-bold text-gray-900 mb-1">
+                  {stats.completedHours}h
+                </div>
+                <div className="text-sm text-gray-600">Heures révisées</div>
+              </div>
             </div>
           </div>
-          <div className="stat-card">
-            <div className="stat-icon">📚</div>
-            <div className="stat-content">
-              <div className="stat-value">{subjects.length}</div>
-              <div className="stat-label">Matières</div>
+          <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+            <div className="flex items-center gap-4">
+              <div className="text-4xl">📚</div>
+              <div>
+                <div className="text-3xl font-bold text-gray-900 mb-1">
+                  {subjects.length}
+                </div>
+                <div className="text-sm text-gray-600">Matières</div>
+              </div>
             </div>
           </div>
         </section>
 
         {/* Section Matières */}
-        <section className="section">
-          <div className="section-header">
-            <h2>📚 Mes matières</h2>
+        <section className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl font-semibold text-gray-900">📚 Mes matières</h2>
             <button
               className="btn-primary"
               onClick={() => setShowAddSubject(!showAddSubject)}
@@ -431,21 +456,25 @@ function App() {
           </div>
 
           {showAddSubject && (
-            <div className="add-subject-form">
-              <div className="form-group">
-                <label>Nom de la matière</label>
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6 space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                  Nom de la matière
+                </label>
                 <input
                   type="text"
                   placeholder="Ex: Algorithmique avancée"
                   value={newSubjectName}
                   onChange={(e) => setNewSubjectName(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent"
                 />
               </div>
-              <div className="form-group">
-                <label>Type</label>
+              <div>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">Type</label>
                 <select
                   value={newSubjectType}
                   onChange={(e) => setNewSubjectType(e.target.value as any)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent"
                 >
                   <option value="info">Informatique</option>
                   <option value="maths">Mathématiques</option>
@@ -454,7 +483,7 @@ function App() {
                   <option value="autre">Autre</option>
                 </select>
               </div>
-              <div className="form-actions">
+              <div className="flex gap-3 justify-end">
                 <button
                   className="btn-secondary"
                   onClick={() => setShowAddSubject(false)}
@@ -469,12 +498,14 @@ function App() {
           )}
 
           {/* Templates de matières */}
-          <div className="templates-section">
-            <div className="templates-header">
-              <h3>Ajouter des matières depuis les templates</h3>
+          <div className="mb-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-base font-semibold text-gray-900">
+                Ajouter des matières depuis les templates
+              </h3>
               {subjects.length > 0 && (
                 <button
-                  className="btn-secondary"
+                  className="btn-ghost text-sm"
                   onClick={() => setShowTemplates(!showTemplates)}
                 >
                   {showTemplates ? "Masquer" : "Afficher"} les templates
@@ -482,14 +513,14 @@ function App() {
               )}
             </div>
             {showTemplates && (
-              <div className="templates-grid">
-                <div className="template-category">
-                  <h4>💻 Informatique</h4>
-                  <div className="template-buttons">
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-900 mb-3">💻 Informatique</h4>
+                  <div className="flex flex-wrap gap-2">
                     {SUBJECT_TEMPLATES.info.map((template) => (
                       <button
                         key={template.name}
-                        className="template-btn"
+                        className="px-4 py-2 bg-white border-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                         style={{ borderColor: template.color }}
                         onClick={() => addSubjectFromTemplate(template, "info")}
                       >
@@ -498,51 +529,45 @@ function App() {
                     ))}
                   </div>
                 </div>
-                <div className="template-category">
-                  <h4>📐 Mathématiques</h4>
-                  <div className="template-buttons">
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-900 mb-3">📐 Mathématiques</h4>
+                  <div className="flex flex-wrap gap-2">
                     {SUBJECT_TEMPLATES.maths.map((template) => (
                       <button
                         key={template.name}
-                        className="template-btn"
+                        className="px-4 py-2 bg-white border-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                         style={{ borderColor: template.color }}
-                        onClick={() =>
-                          addSubjectFromTemplate(template, "maths")
-                        }
+                        onClick={() => addSubjectFromTemplate(template, "maths")}
                       >
                         {template.icon} {template.name}
                       </button>
                     ))}
                   </div>
                 </div>
-                <div className="template-category">
-                  <h4>⚛️ Physique</h4>
-                  <div className="template-buttons">
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-900 mb-3">⚛️ Physique</h4>
+                  <div className="flex flex-wrap gap-2">
                     {SUBJECT_TEMPLATES.physique.map((template) => (
                       <button
                         key={template.name}
-                        className="template-btn"
+                        className="px-4 py-2 bg-white border-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                         style={{ borderColor: template.color }}
-                        onClick={() =>
-                          addSubjectFromTemplate(template, "physique")
-                        }
+                        onClick={() => addSubjectFromTemplate(template, "physique")}
                       >
                         {template.icon} {template.name}
                       </button>
                     ))}
                   </div>
                 </div>
-                <div className="template-category">
-                  <h4>🧪 Chimie</h4>
-                  <div className="template-buttons">
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-900 mb-3">🧪 Chimie</h4>
+                  <div className="flex flex-wrap gap-2">
                     {SUBJECT_TEMPLATES.chimie.map((template) => (
                       <button
                         key={template.name}
-                        className="template-btn"
+                        className="px-4 py-2 bg-white border-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                         style={{ borderColor: template.color }}
-                        onClick={() =>
-                          addSubjectFromTemplate(template, "chimie")
-                        }
+                        onClick={() => addSubjectFromTemplate(template, "chimie")}
                       >
                         {template.icon} {template.name}
                       </button>
@@ -553,39 +578,35 @@ function App() {
             )}
           </div>
 
-          <div className="subjects-grid">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {subjects.map((subject) => {
               const subjectStats = getSubjectStats(subject.id);
               return (
                 <div
                   key={subject.id}
-                  className="subject-card"
+                  className="bg-white border-l-4 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow"
                   style={{ borderLeftColor: subject.color }}
                 >
-                  <div className="subject-header">
-                    <div className="subject-title">
-                      <span className="subject-icon">{subject.icon}</span>
-                      <h3>{subject.name}</h3>
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <span className="text-2xl">{subject.icon}</span>
+                      <h3 className="text-base font-semibold text-gray-900">{subject.name}</h3>
                     </div>
-                    <div className="subject-actions">
+                    <div className="flex gap-1">
                       <button
-                        className="btn-icon"
+                        className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-600 hover:text-gray-900 transition-colors"
                         onClick={(e) => {
                           e.stopPropagation();
                           setSelectedSubject(
                             selectedSubject === subject.id ? null : subject.id
                           );
                         }}
-                        title={
-                          selectedSubject === subject.id
-                            ? "Réduire"
-                            : "Développer"
-                        }
+                        title={selectedSubject === subject.id ? "Réduire" : "Développer"}
                       >
                         {selectedSubject === subject.id ? "▼" : "▶"}
                       </button>
                       <button
-                        className="btn-icon btn-delete"
+                        className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-red-50 text-gray-600 hover:text-red-600 transition-colors"
                         onClick={(e) => {
                           e.stopPropagation();
                           deleteSubject(subject.id);
@@ -596,32 +617,34 @@ function App() {
                       </button>
                     </div>
                   </div>
-                  <div className="subject-stats">
-                    <div className="stat-item">
-                      <span className="stat-number">
-                        {subjectStats.completed}/{subjectStats.total}
-                      </span>
-                      <span className="stat-text">séances</span>
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-1">
+                      <div className="text-sm text-gray-600">
+                        <span className="font-semibold text-gray-900">
+                          {subjectStats.completed}/{subjectStats.total}
+                        </span>{" "}
+                        séances
+                      </div>
+                      <div className="text-sm text-gray-600">
+                        <span className="font-semibold text-gray-900">
+                          {subjectStats.completedHours}h
+                        </span>{" "}
+                        révisées
+                      </div>
                     </div>
-                    <div className="stat-item">
-                      <span className="stat-number">
-                        {subjectStats.completedHours}h
-                      </span>
-                      <span className="stat-text">révisées</span>
-                    </div>
-                    <div className="progress-circle">
-                      <svg width="50" height="50">
+                    <div className="relative w-12 h-12">
+                      <svg className="transform -rotate-90" width="48" height="48">
                         <circle
-                          cx="25"
-                          cy="25"
+                          cx="24"
+                          cy="24"
                           r="20"
                           fill="none"
                           stroke="#e5e7eb"
                           strokeWidth="4"
                         />
                         <circle
-                          cx="25"
-                          cy="25"
+                          cx="24"
+                          cy="24"
                           r="20"
                           fill="none"
                           stroke={subject.color}
@@ -630,81 +653,89 @@ function App() {
                           strokeDashoffset={`${
                             2 * Math.PI * 20 * (1 - subjectStats.progress / 100)
                           }`}
-                          transform="rotate(-90 25 25)"
                         />
                       </svg>
-                      <span className="progress-text">
+                      <span className="absolute inset-0 flex items-center justify-center text-xs font-semibold text-gray-900">
                         {Math.round(subjectStats.progress)}%
                       </span>
                     </div>
                   </div>
 
                   {selectedSubject === subject.id && (
-                    <div className="subject-details">
-                      <div className="chapters-section">
-                        <h4>Chapitres</h4>
-                        <div className="chapters-list">
-                          {subject.chapters.map((chapter) => (
+                    <div className="mt-4 pt-4 border-t border-gray-200">
+                      <h4 className="text-sm font-semibold text-gray-900 mb-3">Chapitres</h4>
+                      <div className="space-y-2">
+                        {subject.chapters.map((chapter) => (
+                          <div
+                            key={chapter.id}
+                            className={`flex items-center justify-between p-2 rounded-lg ${
+                              chapter.completed
+                                ? "bg-gray-50 opacity-60"
+                                : "bg-white hover:bg-gray-50"
+                            }`}
+                          >
                             <div
-                              key={chapter.id}
-                              className={`chapter-item ${
-                                chapter.completed ? "completed" : ""
-                              }`}
-                            >
-                              <div
-                                className="chapter-content"
-                                onClick={() =>
-                                  toggleChapterCompleted(subject.id, chapter.id)
-                                }
-                              >
-                                <input
-                                  type="checkbox"
-                                  checked={chapter.completed}
-                                  onChange={() => {}}
-                                />
-                                <span>{chapter.name}</span>
-                                <span
-                                  className={`difficulty-badge ${chapter.difficulty}`}
-                                >
-                                  {chapter.difficulty}
-                                </span>
-                              </div>
-                              <button
-                                className="btn-icon-small btn-delete"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  if (
-                                    window.confirm(
-                                      `Supprimer le chapitre "${chapter.name}" ?`
-                                    )
-                                  ) {
-                                    deleteChapter(subject.id, chapter.id);
-                                  }
-                                }}
-                                title="Supprimer le chapitre"
-                              >
-                                ×
-                              </button>
-                            </div>
-                          ))}
-                          <input
-                            type="text"
-                            className="add-chapter-input"
-                            placeholder="+ Ajouter un chapitre"
-                            onKeyDown={(e) => {
-                              if (
-                                e.key === "Enter" &&
-                                e.currentTarget.value.trim()
-                              ) {
-                                addChapter(
-                                  subject.id,
-                                  e.currentTarget.value.trim()
-                                );
-                                e.currentTarget.value = "";
+                              className="flex items-center gap-2 flex-1 cursor-pointer"
+                              onClick={() =>
+                                toggleChapterCompleted(subject.id, chapter.id)
                               }
-                            }}
-                          />
-                        </div>
+                            >
+                              <input
+                                type="checkbox"
+                                checked={chapter.completed}
+                                onChange={() => {}}
+                                className="w-4 h-4 text-brand-600 rounded focus:ring-brand-600"
+                              />
+                              <span className={`text-sm ${chapter.completed ? "line-through text-gray-500" : "text-gray-900"}`}>
+                                {chapter.name}
+                              </span>
+                              <span
+                                className={`text-xs px-2 py-0.5 rounded-full ${
+                                  chapter.difficulty === "facile"
+                                    ? "bg-green-100 text-green-700"
+                                    : chapter.difficulty === "moyen"
+                                    ? "bg-yellow-100 text-yellow-700"
+                                    : "bg-red-100 text-red-700"
+                                }`}
+                              >
+                                {chapter.difficulty}
+                              </span>
+                            </div>
+                            <button
+                              className="w-6 h-6 flex items-center justify-center rounded hover:bg-red-50 text-gray-400 hover:text-red-600 transition-colors"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (
+                                  window.confirm(
+                                    `Supprimer le chapitre "${chapter.name}" ?`
+                                  )
+                                ) {
+                                  deleteChapter(subject.id, chapter.id);
+                                }
+                              }}
+                              title="Supprimer le chapitre"
+                            >
+                              ×
+                            </button>
+                          </div>
+                        ))}
+                        <input
+                          type="text"
+                          className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent"
+                          placeholder="+ Ajouter un chapitre"
+                          onKeyDown={(e) => {
+                            if (
+                              e.key === "Enter" &&
+                              e.currentTarget.value.trim()
+                            ) {
+                              addChapter(
+                                subject.id,
+                                e.currentTarget.value.trim()
+                              );
+                              e.currentTarget.value = "";
+                            }
+                          }}
+                        />
                       </div>
                     </div>
                   )}
@@ -715,28 +746,30 @@ function App() {
         </section>
 
         {/* Section Planning */}
-        <section className="section">
-          <div className="section-header">
-            <h2>📅 Planning</h2>
-            <div className="week-navigation">
+        <section className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+            <h2 className="text-xl font-semibold text-gray-900">📅 Planning</h2>
+            <div className="flex items-center gap-3">
               <button
-                className="btn-icon"
+                className="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-300 hover:bg-gray-50 text-gray-700 transition-colors"
                 onClick={() => setCurrentWeek(subWeeks(currentWeek, 1))}
+                aria-label="Semaine précédente"
               >
                 ←
               </button>
-              <span className="week-display">
+              <span className="text-sm font-medium text-gray-700 min-w-[200px] text-center">
                 {format(weekDays[0], "d MMM", { locale: fr })} -{" "}
                 {format(weekDays[6], "d MMM yyyy", { locale: fr })}
               </span>
               <button
-                className="btn-icon"
+                className="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-300 hover:bg-gray-50 text-gray-700 transition-colors"
                 onClick={() => setCurrentWeek(addWeeks(currentWeek, 1))}
+                aria-label="Semaine suivante"
               >
                 →
               </button>
               <button
-                className="btn-secondary"
+                className="btn-secondary text-sm"
                 onClick={() => setCurrentWeek(new Date())}
               >
                 Aujourd'hui
@@ -744,20 +777,28 @@ function App() {
             </div>
           </div>
 
-          <div className="planning-grid">
+          <div className="grid grid-cols-1 md:grid-cols-7 gap-4">
             {weekDays.map((day, index) => {
               const daySlots = getDaySlots(day);
               const isToday = isSameDay(day, new Date());
               return (
                 <div
                   key={index}
-                  className={`day-column ${isToday ? "today" : ""}`}
+                  className={`bg-gray-50 rounded-lg p-3 min-h-[200px] ${
+                    isToday ? "ring-2 ring-brand-600 bg-brand-50" : ""
+                  }`}
                 >
-                  <div className="day-header">
-                    <h3>{format(day, "EEE", { locale: fr })}</h3>
-                    <span className="day-number">{format(day, "d")}</span>
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-sm font-semibold text-gray-900">
+                      {format(day, "EEE", { locale: fr })}
+                    </h3>
+                    <span className={`text-sm font-bold ${
+                      isToday ? "text-brand-600" : "text-gray-600"
+                    }`}>
+                      {format(day, "d")}
+                    </span>
                   </div>
-                  <div className="day-slots">
+                  <div className="space-y-2">
                     {daySlots
                       .sort((a, b) => a.startTime.localeCompare(b.startTime))
                       .map((slot) => {
@@ -770,46 +811,44 @@ function App() {
                         return (
                           <div
                             key={slot.id}
-                            className={`revision-slot ${
-                              slot.completed ? "completed" : ""
-                            } priority-${slot.priority}`}
+                            className={`bg-white border-l-4 rounded-lg p-2 cursor-pointer hover:shadow-sm transition-all ${
+                              slot.completed ? "opacity-60" : ""
+                            }`}
                             style={{ borderLeftColor: subject?.color }}
                             onClick={() => toggleSlotCompleted(slot.id)}
                           >
-                            <div className="slot-header">
-                              <div className="slot-subject-info">
-                                <span className="slot-subject">
+                            <div className="flex items-start justify-between mb-1">
+                              <div className="flex-1 min-w-0">
+                                <div className="text-xs font-semibold text-gray-900 truncate">
                                   {subject?.icon} {subject?.name}
-                                </span>
+                                </div>
                                 {chapter && (
-                                  <span className="slot-chapter">
+                                  <div className="text-xs text-gray-600 truncate">
                                     📑 {chapter.name}
-                                  </span>
+                                  </div>
                                 )}
                               </div>
                               <button
-                                className="btn-icon-small"
+                                className="w-5 h-5 flex items-center justify-center rounded hover:bg-red-50 text-gray-400 hover:text-red-600 transition-colors flex-shrink-0 ml-1"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   deleteSlot(slot.id);
                                 }}
+                                aria-label="Supprimer le créneau"
                               >
                                 ×
                               </button>
                             </div>
-                            <div className="slot-time">
-                              {slot.startTime} -{" "}
-                              {Math.floor(slot.duration / 60)}h
-                              {slot.duration % 60 > 0
-                                ? `${slot.duration % 60}`
-                                : ""}
+                            <div className="text-xs text-gray-600">
+                              {slot.startTime} - {Math.floor(slot.duration / 60)}h
+                              {slot.duration % 60 > 0 ? `${slot.duration % 60}` : ""}
                             </div>
-                            <div className="slot-type">{slot.type}</div>
+                            <div className="text-xs text-gray-500 mt-1">{slot.type}</div>
                           </div>
                         );
                       })}
                     <button
-                      className="add-slot-btn"
+                      className="w-full py-2 text-xs font-medium text-brand-600 hover:text-brand-700 hover:bg-brand-50 rounded-lg transition-colors border border-dashed border-gray-300 hover:border-brand-300"
                       onClick={() => openSlotModal(day)}
                     >
                       + Ajouter
@@ -835,13 +874,22 @@ function App() {
         />
       )}
 
-      <footer className="footer">
-        <p>
-          Développé par <a href="https://www.kopio.eu">KOPIO</a> - Outil
-          open-source gratuit
+      <footer className="container-max py-8 text-center border-t border-gray-200 mt-12">
+        <p className="text-sm text-gray-600 mb-2">
+          Développé par{" "}
+          <a
+            href="https://www.kopio.eu"
+            className="text-brand-600 hover:text-brand-700 font-medium"
+          >
+            KOPIO
+          </a>{" "}
+          - Outil open-source gratuit
         </p>
-        <p>
-          <a href="https://github.com/TKarelle/kopio-revision-planner-">
+        <p className="text-sm text-gray-600">
+          <a
+            href="https://github.com/TKarelle/kopio-revision-planner-"
+            className="text-brand-600 hover:text-brand-700 font-medium"
+          >
             ⭐ Donner une étoile sur GitHub
           </a>
         </p>
@@ -915,21 +963,36 @@ function SlotModal({
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-header">
-          <h3>{slot?.id ? "Modifier" : "Ajouter"} un créneau de révision</h3>
-          <button className="btn-icon" onClick={onClose}>
+    <div
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+      onClick={onClose}
+    >
+      <div
+        className="bg-white rounded-xl p-6 max-w-md w-full max-h-[90vh] overflow-y-auto shadow-xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-xl font-semibold text-gray-900">
+            {slot?.id ? "Modifier" : "Ajouter"} un créneau de révision
+          </h3>
+          <button
+            className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-600 hover:text-gray-900 transition-colors"
+            onClick={onClose}
+            aria-label="Fermer"
+          >
             ×
           </button>
         </div>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Matière</label>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-semibold text-gray-900 mb-2">
+              Matière
+            </label>
             <select
               value={subjectId}
               onChange={(e) => handleSubjectChange(e.target.value)}
               required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent"
             >
               {subjects.map((s) => (
                 <option key={s.id} value={s.id}>
@@ -939,11 +1002,14 @@ function SlotModal({
             </select>
           </div>
           {availableChapters.length > 0 && (
-            <div className="form-group">
-              <label>Chapitre (optionnel)</label>
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">
+                Chapitre (optionnel)
+              </label>
               <select
                 value={chapterId}
                 onChange={(e) => setChapterId(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent"
               >
                 <option value="">Aucun chapitre spécifique</option>
                 {availableChapters.map((chapter) => (
@@ -954,27 +1020,35 @@ function SlotModal({
               </select>
             </div>
           )}
-          <div className="form-row">
-            <div className="form-group">
-              <label>Date</label>
+          <div className="grid grid-cols-3 gap-3">
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">
+                Date
+              </label>
               <input
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 required
+                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent"
               />
             </div>
-            <div className="form-group">
-              <label>Heure de début</label>
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">
+                Heure
+              </label>
               <input
                 type="time"
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
                 required
+                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent"
               />
             </div>
-            <div className="form-group">
-              <label>Durée (min)</label>
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">
+                Durée (min)
+              </label>
               <input
                 type="number"
                 value={duration}
@@ -982,15 +1056,19 @@ function SlotModal({
                 min="15"
                 step="15"
                 required
+                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent"
               />
             </div>
           </div>
-          <div className="form-row">
-            <div className="form-group">
-              <label>Type</label>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">
+                Type
+              </label>
               <select
                 value={type}
                 onChange={(e) => setType(e.target.value as any)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent"
               >
                 <option value="cours">📖 Cours</option>
                 <option value="exercices">✏️ Exercices</option>
@@ -999,11 +1077,14 @@ function SlotModal({
                 <option value="revision">🔄 Révision</option>
               </select>
             </div>
-            <div className="form-group">
-              <label>Priorité</label>
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">
+                Priorité
+              </label>
               <select
                 value={priority}
                 onChange={(e) => setPriority(e.target.value as any)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent"
               >
                 <option value="basse">🟢 Basse</option>
                 <option value="normale">🟡 Normale</option>
@@ -1011,16 +1092,19 @@ function SlotModal({
               </select>
             </div>
           </div>
-          <div className="form-group">
-            <label>Notes (optionnel)</label>
+          <div>
+            <label className="block text-sm font-semibold text-gray-900 mb-2">
+              Notes (optionnel)
+            </label>
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               rows={3}
               placeholder="Ex: Réviser les algorithmes de tri..."
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent resize-none"
             />
           </div>
-          <div className="form-actions">
+          <div className="flex gap-3 justify-end pt-4">
             <button type="button" className="btn-secondary" onClick={onClose}>
               Annuler
             </button>
