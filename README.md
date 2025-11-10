@@ -18,8 +18,8 @@ Outil open-source gratuit pour planifier tes révisions efficacement.
 
 ```bash
 # Cloner le repository
-git clone https://github.com/kopio/planificateur-revision-kopio.git
-cd planificateur-revision-kopio
+git clone https://github.com/TKarelle/kopio-revision-planner-.git
+cd kopio-revision-planner-
 
 # Installer les dépendances
 npm install
@@ -62,8 +62,8 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 
 - **Site web** : [www.kopio.eu](https://www.kopio.eu)
 - **Documentation** : [www.kopio.eu/guides](https://www.kopio.eu/guides)
-- **Issues** : [GitHub Issues](https://github.com/kopio/planificateur-revision-kopio/issues)
-- **Discussions** : [GitHub Discussions](https://github.com/kopio/planificateur-revision-kopio/discussions)
+- **Issues** : [GitHub Issues](https://github.com/TKarelle/kopio-revision-planner-/issues)
+- **Discussions** : [GitHub Discussions](https://github.com/TKarelle/kopio-revision-planner-/discussions)
 
 ## 👥 Équipe
 
